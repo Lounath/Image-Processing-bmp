@@ -1,2 +1,2 @@
 # CYmage
-Imagine all the people
+All the people
