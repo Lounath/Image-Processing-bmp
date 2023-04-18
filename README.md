@@ -1,2 +1,2 @@
 # CYmage
-All the people
+In all the people
