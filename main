@@ -66,6 +66,7 @@ void ReadImage(const char *fileName,byte **pixels, int32 *width, int32 *height, 
         fclose(imageFile);
 }
 
+
 void fillHeaderVal( int val,int placeHigh, unsigned char* header) {
    
     header[placeHigh] = ((val & 0xFF000000) >> (6*4));
@@ -74,12 +75,8 @@ void fillHeaderVal( int val,int placeHigh, unsigned char* header) {
     header[placeHigh - 3] = (val & 0x000000FF);
 
 }
-//***Inputs*****
-//fileName: The name of the file to save 
-//pixels: Pointer to the pixel data array
-//width: The width of the image in pixels
-//height: The height of the image in pixels
-//bytesPerPixel: The number of bytes per pixel that are used in the image
+
+
 FILE* WriteImage(const char *fileName, byte *pixels, int32 width, int32 height,int32 bytesPerPixel)
 {
 	    // BMP images have a 54 byte header
@@ -105,8 +102,6 @@ FILE* WriteImage(const char *fileName, byte *pixels, int32 width, int32 height,i
     int bitmapSize = 3 * width * height;
     int fileSize = bitmapSize + 54;
     fillHeaderVal(fileSize, 5, header);
-//    printf("%X \n", fileSize );
-//    printf("%X %X %X %X \n", header[2], header[3], header[4], header[5]);
     fillHeaderVal(width, 21, header);
     fillHeaderVal(height, 25, header);
     fillHeaderVal(bitmapSize, 37, header);
@@ -127,11 +122,11 @@ FILE* WriteImage(const char *fileName, byte *pixels, int32 width, int32 height,i
     // write the header out to the file
     for(int i = 0; i < 54; i++) {
         fputc(header[i], fp);
-//        printf("%X ", header[i] );
-
     }
     return fp;
 }
+
+
 void cent80(const char *fileName, byte *pixels, int32 width, int32 height,int32 bytesPerPixel){
 	FILE* fp= WriteImage(fileName, pixels, width, height, bytesPerPixel);
         int i = 0;
@@ -139,15 +134,11 @@ void cent80(const char *fileName, byte *pixels, int32 width, int32 height,int32 
         int unpaddedRowSize = width*bytesPerPixel;
         for ( i = height; i > 0; i--)
         {
-                //start writing from the beginning of last row in the pixel array
                 int pixelOffset = ((height - i))*unpaddedRowSize;
                 fwrite(&pixels[pixelOffset], 1, paddedRowSize, fp);
         }
         fclose(fp);
 }
-
-
-
 
 
 void copy(const char *fileName, byte *pixels, int32 width, int32 height,int32 bytesPerPixel)
