@@ -71,72 +71,103 @@ void ReadImage(const char *fileName,byte **pixels, int32 *width, int32 *height, 
         fclose(imageFile);
 }
 
+void fillHeaderVal( int val,int placeHigh, unsigned char* header) {
+   
+    header[placeHigh] = ((val & 0xFF000000) >> (6*4));
+    header[placeHigh - 1] = ((val & 0x00FF0000) >> (4*4));
+    header[placeHigh - 2] = ((val & 0x0000FF00) >> (2*4));
+    header[placeHigh - 3] = (val & 0x000000FF);
+
+}
 //***Inputs*****
 //fileName: The name of the file to save 
 //pixels: Pointer to the pixel data array
 //width: The width of the image in pixels
 //height: The height of the image in pixels
 //bytesPerPixel: The number of bytes per pixel that are used in the image
-void WriteImage(const char *fileName, byte *pixels, int32 width, int32 height,int32 bytesPerPixel)
+FILE* WriteImage(const char *fileName, byte *pixels, int32 width, int32 height,int32 bytesPerPixel)
 {
-        //Open file in binary mode
-        FILE *outputFile = fopen(fileName, "wb");
-        //*****HEADER************//
-        //write signature
-        const char *BM = "BM";
-        fwrite(&BM[0], 1, 1, outputFile);
-        fwrite(&BM[1], 1, 1, outputFile);
-        //Write file size considering padded bytes
-        int paddedRowSize = (int)(4 * ceil((float)width/4.0f))*bytesPerPixel;
-        int32 fileSize = paddedRowSize*height + HEADER_SIZE + INFO_HEADER_SIZE;
-        fwrite(&fileSize, 4, 1, outputFile);
-        //Write reserved
-        int32 reserved = 0x0000;
-        fwrite(&reserved, 4, 1, outputFile);
-        //Write data offset
-        int32 dataOffset = HEADER_SIZE+INFO_HEADER_SIZE;
-        fwrite(&dataOffset, 4, 1, outputFile);
+	    // BMP images have a 54 byte header
+    unsigned char header[54] = { 
+        0x42, 0x4D, // "BM"
+        0, 0, 0, 0, // image size with header
+        0x00, 0x00,
+        0x00, 0x00,
+        0x36, 0x00, 0x00, 0x00,
+        0x28, 0x00, 0x00, 0x00,
+        0, 0, 0, 0, // width
+        0, 0, 0, 0, // height
+        0x01, 0x00,
+        0x18, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0, 0, 0, 0, // image size excluding header
 
-        //*******INFO*HEADER******//
-        //Write size
-        int32 infoHeaderSize = INFO_HEADER_SIZE;
-        fwrite(&infoHeaderSize, 4, 1, outputFile);
-        //Write width and height
-        fwrite(&width, 4, 1, outputFile);
-        fwrite(&height, 4, 1, outputFile);
-        //Write planes
-        int16 planes = 1; //always 1
-        fwrite(&planes, 2, 1, outputFile);
-        //write bits per pixel
-        int16 bitsPerPixel = bytesPerPixel * 8;
-        fwrite(&bitsPerPixel, 2, 1, outputFile);
-        //write compression
-        int32 compression = NO_COMPRESION;
-        fwrite(&compression, 4, 1, outputFile);
-        //write image size (in bytes)
-        int32 imageSize = width*height*bytesPerPixel;
-        fwrite(&imageSize, 4, 1, outputFile);
-        //write resolution (in pixels per meter)
-        int32 resolutionX = 11811; //300 dpi
-        int32 resolutionY = 11811; //300 dpi
-        fwrite(&resolutionX, 4, 1, outputFile);
-        fwrite(&resolutionY, 4, 1, outputFile);
-        //write colors used 
-        int32 colorsUsed = MAX_NUMBER_OF_COLORS;
-        fwrite(&colorsUsed, 4, 1, outputFile);
-        //Write important colors
-        int32 importantColors = ALL_COLORS_REQUIRED;
-        fwrite(&importantColors, 4, 1, outputFile);
-        //write data
+        0xC4, 0x0E, 0x00, 0x00,
+        0xC4, 0x0E, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00
+    };
+    int bitmapSize = 3 * width * height;
+    int fileSize = bitmapSize + 54;
+    fillHeaderVal(fileSize, 5, header);
+//    printf("%X \n", fileSize );
+//    printf("%X %X %X %X \n", header[2], header[3], header[4], header[5]);
+    fillHeaderVal(width, 21, header);
+    fillHeaderVal(height, 25, header);
+    fillHeaderVal(bitmapSize, 37, header);
+
+    // Add padding so that each line width in bytes is multiple of 4 even if the pixel width is not
+    //    - 3 colors, R, G, B, so lines take 3*width bytes
+    //    - the line width in bytes % 4 gives us the distance from the last multiple of 4
+    //    - then subtract this from 4 to get the distance to the next multiple of 4 and therefore the padding
+    int padding =(4 -  ((3 * width)  % 4)); 
+    if(padding == 4) {  // do not add padding if line width in bytes is already multiple of 4
+        padding = 0;
+    }
+
+
+    FILE *fp;
+    fp = fopen(fileName, "wb"); // write in binary mode 
+
+    // write the header out to the file
+    for(int i = 0; i < 54; i++) {
+        fputc(header[i], fp);
+//        printf("%X ", header[i] );
+
+    }
+    return fp;
+}
+void cent80(const char *fileName, byte *pixels, int32 width, int32 height,int32 bytesPerPixel){
+	FILE* fp= WriteImage(fileName, pixels, width, height, bytesPerPixel);
         int i = 0;
+        int paddedRowSize = (int)(4 * ceil((float)width/4.0f))*bytesPerPixel;
+        int unpaddedRowSize = width*bytesPerPixel;
+        for ( i = height; i > 0; i--)
+        {
+                //start writing from the beginning of last row in the pixel array
+                int pixelOffset = ((height - i))*unpaddedRowSize;
+                fwrite(&pixels[pixelOffset], 1, paddedRowSize, fp);
+        }
+        fclose(fp);
+}
+
+
+
+
+
+void copy(const char *fileName, byte *pixels, int32 width, int32 height,int32 bytesPerPixel)
+{
+	FILE* fp= WriteImage(fileName, pixels, width, height, bytesPerPixel);
+        int i = 0;
+        int paddedRowSize = (int)(4 * ceil((float)width/4.0f))*bytesPerPixel;
         int unpaddedRowSize = width*bytesPerPixel;
         for ( i = 0; i < height; i++)
         {
                 //start writing from the beginning of last row in the pixel array
                 int pixelOffset = ((height - i) - 1)*unpaddedRowSize;
-                fwrite(&pixels[pixelOffset], 1, paddedRowSize, outputFile);	
+                fwrite(&pixels[pixelOffset], 1, paddedRowSize, fp);
         }
-        fclose(outputFile);
+        fclose(fp);
 }
 
 int main()
@@ -145,8 +176,13 @@ int main()
         int32 width;
         int32 height;
         int32 bytesPerPixel;
-        ReadImage("img.bmp", &pixels, &width, &height,&bytesPerPixel);
-        WriteImage("img2.bmp", pixels, width, height, bytesPerPixel);
+        ReadImage("imaget.bmp", &pixels, &width, &height,&bytesPerPixel);
+        copy("img.bmp", pixels, width, height, bytesPerPixel);
+        cent80("img2.bmp", pixels, width, height, bytesPerPixel);
         free(pixels);
         return 0;
 }
+
+
+
+
