@@ -9,7 +9,7 @@ $(OBJ_DIR)/functions_traitement.o : functions_traitement.c functions_traitement.
 	gcc -c functions_traitement.c -o $(OBJ_DIR)/functions_traitement.o
 
 $(OBJ_DIR)/structures.o : structures.c structures.h
-	gcc -c structures.c -o fichier_o/structures.o
+	gcc -c structures.c -o $(OBJ_DIR)/structures.o
 	
 prog : $(OBJ_DIR)/main.o $(OBJ_DIR)/functions_traitement.o 
 	gcc  $(OBJ_DIR)/structures.o $(OBJ_DIR)/main.o  $(OBJ_DIR)/functions_traitement.o -o prog 
