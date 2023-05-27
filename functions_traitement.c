@@ -216,12 +216,31 @@ void blur(struct Image pic){
 	}
 }
 
+void SepiaFilter(struct Image pic) {
+    int i, j;
+    unsigned char tmpR, tmpG, tmpB;
+    
+    for (i = 0; i < pic.height; i++) {
+        for (j = 0; j < pic.width; j++) {
+        
+	    tmpR = pic.rgb[i][j].red;
+	    tmpG = pic.rgb[i][j].green;
+	    tmpB = pic.rgb[i][j].blue;        
+        
+            pic.rgb[i][j].red = fmin((tmpR * 0.393) + (tmpG * 0.769) + (tmpB * 0.189), 255);
+            pic.rgb[i][j].green = fmin((tmpR * 0.349) + (tmpG * 0.686) + (tmpB * 0.168), 255);
+            pic.rgb[i][j].blue = fmin((tmpR * 0.272) + (tmpG * 0.534) + (tmpB * 0.131), 255);
+            
+        }
+    }
+}
+
 int newImage(struct BITMAP_header header, struct DIB_header dibheader, struct Image pic){
 	int i,temp,choice;
 	do {
-		printf("Choose how your going to change your image between (please enter the number related to your choice): \n(1) Grayscale \n(2) Negatif \n(3) More luminosity \n(4) Less luminosity \n(5) Less contrast \n(6) More contrast \n(7) Binary \n(8) Horizontal symmetry \n(9) Vertical symmetry \n(10) 180 degres \n(11) Mirror \n(12) Blur\nPlease enter the number related to your choixe\n ");
+		printf("Choose how your going to change your image between (please enter the number related to your choice): \n(1) Grayscale \n(2) Negatif \n(3) More luminosity \n(4) Less luminosity \n(5) Less contrast \n(6) More contrast \n(7) Binary \n(8) Horizontal symmetry \n(9) Vertical symmetry \n(10) 180 degres \n(11) Mirror \n(12) Blur\n(13) Sepia Filter\n Please enter the number related to your choixe\n ");
 	scanf("%d",&choice);
-	}while ((choice<1)||(choice>12));
+	}while ((choice<1)||(choice>13));
 	FILE *fpw= fopen("new.bmp","w"); //writer
 	if (fpw == NULL) return 1;
 	
@@ -264,6 +283,9 @@ int newImage(struct BITMAP_header header, struct DIB_header dibheader, struct Im
 			scanf("%d",&temp);
 			for (i=0;i<temp;i++)
 				blur(pic);
+			break;
+		case(13): 
+			SepiaFilter(pic);
 			break;
 		default:
 			printf("The modification you are asking for doesn't exist. By default we just copy the photo given. \nPlease try again\n");
