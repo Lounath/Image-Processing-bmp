@@ -4,10 +4,12 @@ Pour utiliser le code changer le nom de l'image dans le main (faut que ça soit 
 
 En python mais va très surement être utile: https://www.codingame.com/playgrounds/53303/apprendre-python-dans-le-secondaire/manipulations-dimages-ii#:~:text=L'id%C3%A9e%2C%20pour%20augmenter%20le,les%20valeurs%20de%20mani%C3%A8re%20lin%C3%A9aire 
 
-Ajouter cette ligne de code dans la console: 
+Ajouter ces lignes de code dans la console: 
 
-gcc -c structures.c -o fichier_o/structures.o (c'est le makefile qui le n'arrive pas à compiler structures.o donc on compile a part de make)
+>>sudo apt install imagemagick
 
-puis écrire make (makefile)
+>>gcc -c structures.c -o fichier_o/structures.o (c'est le makefile qui le n'arrive pas à compiler structures.o donc on compile a part de make)
 
-puis ./prog (executable créée par make)
+>>make (makefile)
+
+>>./prog (executable créée par make)
