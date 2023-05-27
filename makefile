@@ -12,4 +12,4 @@ $(OBJ_DIR)/structures.o : structures.c structures.h
 	gcc -c structures.c -o $(OBJ_DIR)/structures.o
 	
 prog : $(OBJ_DIR)/main.o $(OBJ_DIR)/functions_traitement.o 
-	gcc  $(OBJ_DIR)/structures.o $(OBJ_DIR)/main.o  $(OBJ_DIR)/functions_traitement.o -o prog 
+	gcc  $(OBJ_DIR)/structures.o $(OBJ_DIR)/main.o  $(OBJ_DIR)/functions_traitement.o -o prog -lm
