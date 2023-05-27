@@ -98,45 +98,32 @@ void lesslumi(struct Image pic){
 }
 
 void lesscontrast(struct Image pic){
-	//Entre 0 et 100
 	int i,j,k,temp;
-	float contrast;
-	printf("De combien voulez vous diminuer le contraste ? (entre 0 et 100)");
-	scanf("%d",&k);
-	contrast = ((100.0 - k) / 100.0) * ((100.0 - k) / 100.0);
-	printf("%f",contrast);
-	for (i = 0; i<pic.height; i++){
-		for (j=0; j<pic.width; j++){
-			temp = max((((((pic.rgb[i][j].blue / 255.0) - 0.5) * contrast) + 0.5) * 255.0),0);
-			pic.rgb[i][j].blue = temp;
-            		temp = max((((((pic.rgb[i][j].green / 255.0) - 0.5) * contrast) + 0.5) * 255.0),0);
-			pic.rgb[i][j].green = temp;
-			temp = max((((((pic.rgb[i][j].red / 255.0) - 0.5) * contrast) + 0.5) * 255.0),0);
-			pic.rgb[i][j].red = temp;
-			
-		}
+	float contrast = 0.6;
+	
+	for (i = 0; i < pic.height; i++) {
+		for (j = 0; j < pic.width; j++) {
+
+		    // Augmentation du contraste du pixel en fonction du facteur de contraste
+		    pic.rgb[i][j].blue = ((pic.rgb[i][j].blue - 128) * contrast + 128);
+		    pic.rgb[i][j].green = ((pic.rgb[i][j].green - 128) * contrast + 128);
+		    pic.rgb[i][j].red = ((pic.rgb[i][j].red - 128) * contrast + 128);
+        	}
 	}
 }
 
 void morecontrast(struct Image pic){
-	//Entre 0 et 100
-	//AAAAAAAHAHAHAHAHAHA CA MARCHE SUPER BIEN =]
 	int i,j,k,temp;
-	float contrast;
-	printf("De combien voulez vous diminuer le contraste ? (entre 0 et 100)");
-	scanf("%d",&k);
-	contrast = ((100.0 + k) / 100.0) * ((100.0 + k) / 100.0);
-	printf("%f",contrast);
-	for (i = 0; i<pic.height; i++){
-		for (j=0; j<pic.width; j++){
-			temp = min((((((pic.rgb[i][j].blue / 255.0) - 0.5) * contrast) + 0.5) * 255.0),255);
-			pic.rgb[i][j].blue = temp;
-            		temp = min((((((pic.rgb[i][j].green / 255.0) - 0.5) * contrast) + 0.5) * 255.0),255);
-			pic.rgb[i][j].green = temp;
-			temp = min((((((pic.rgb[i][j].red / 255.0) - 0.5) * contrast) + 0.5) * 255.0),255);
-			pic.rgb[i][j].red = temp;
-			
-		}
+	float contrast = 1.2;
+	
+	for (i = 0; i < pic.height; i++) {
+		for (j = 0; j < pic.width; j++) {
+
+		    // Augmentation du contraste du pixel en fonction du facteur de contraste
+		    pic.rgb[i][j].blue = ((pic.rgb[i][j].blue - 128) * contrast + 128);
+		    pic.rgb[i][j].green = ((pic.rgb[i][j].green - 128) * contrast + 128);
+		    pic.rgb[i][j].red = ((pic.rgb[i][j].red - 128) * contrast + 128);
+        	}
 	}
 }
 
@@ -151,27 +138,6 @@ void binary(struct Image pic){
 				pic.rgb[i][j].blue=0;
 			pic.rgb[i][j].green = pic.rgb[i][j].blue;
 			pic.rgb[i][j].red = pic.rgb[i][j].blue;
-		}
-	}
-}
-
-void jaimebien(struct Image pic){
-	//probablement ce à quoi 100% de contraste devrais resembler
-	int i,j;
-	for (i = 0; i<pic.height; i++){
-		for (j=0; j<pic.width; j++){
-			if (pic.rgb[i][j].blue > (255/2) )
-				pic.rgb[i][j].blue=255;
-			else
-				pic.rgb[i][j].blue=0;
-			if (pic.rgb[i][j].green > (255/2))
-				pic.rgb[i][j].green=255;
-			else
-				pic.rgb[i][j].green=0;
-			if (pic.rgb[i][j].red > (255/2))
-				pic.rgb[i][j].red=255;
-			else
-				pic.rgb[i][j].red=0;
 		}
 	}
 }
