@@ -1,5 +1,5 @@
 
-Ajouter ces lignes de code dans la console: 
+Please enter those lines in your terminal: 
 
 >>sudo apt install imagemagick
 
@@ -8,3 +8,7 @@ Ajouter ces lignes de code dans la console:
 >>make (makefile)
 
 >>./prog (executable créée par make)
+
+To use the program just answer the questions in the terminal, your new files will be name "new.bmp" (you can change this name in the code)
+
+enter "display new.bmp" to see your picture
