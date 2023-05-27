@@ -67,32 +67,30 @@ void negatif(struct Image pic){
 
 void morelumi(struct Image pic){
 	int i,j,k;
-	printf("De combien voulez vous augmenter la luminosité ? (entre 0 et 255)");
-	scanf("%d",&k);
-	if (k<0) printf("La prochaine écrivez un nombre positif");
-	else{
-		for (i = 0; i<pic.height; i++){
-			for (j=0; j<pic.width; j++){
-				pic.rgb[i][j].blue = min((pic.rgb[i][j].blue + k), 255);
-				pic.rgb[i][j].green = min((pic.rgb[i][j].green + k), 255);
-				pic.rgb[i][j].red = min((pic.rgb[i][j].red + k), 255);
-			}
+	do{
+		printf("How much do you want to increase the luminosity ? (between 0 and 255)\n");
+		scanf("%d",&k);
+	}while(k<0);
+	for (i = 0; i<pic.height; i++){
+		for (j=0; j<pic.width; j++){
+			pic.rgb[i][j].blue = min((pic.rgb[i][j].blue + k), 255);
+			pic.rgb[i][j].green = min((pic.rgb[i][j].green + k), 255);
+			pic.rgb[i][j].red = min((pic.rgb[i][j].red + k), 255);
 		}
 	}
 }
 
 void lesslumi(struct Image pic){
 	int i,j,k;
-	printf("De combien voulez vous diminuer la luminosité ? (entre 0 et 255)");
-	scanf("%d",&k);
-	if (k<0) printf("La prochaine écrivez un nombre positif");
-	else{
-		for (i = 0; i<pic.height; i++){
-			for (j=0; j<pic.width; j++){
-				pic.rgb[i][j].blue = max((pic.rgb[i][j].blue - k), 0);
-				pic.rgb[i][j].green = max((pic.rgb[i][j].green - k), 0);
-				pic.rgb[i][j].red = max((pic.rgb[i][j].red - k), 0);
-			}
+	do{
+		printf("How much do you want to decrease the luminosity ? (between 0 and 255)\n");
+		scanf("%d",&k);
+	}while(k<0);
+	for (i = 0; i<pic.height; i++){
+		for (j=0; j<pic.width; j++){
+			pic.rgb[i][j].blue = max((pic.rgb[i][j].blue - k), 0);
+			pic.rgb[i][j].green = max((pic.rgb[i][j].green - k), 0);
+			pic.rgb[i][j].red = max((pic.rgb[i][j].red - k), 0);
 		}
 	}
 }
@@ -142,7 +140,7 @@ void binary(struct Image pic){
 	}
 }
 
-void symhori(struct Image pic){
+void horisym(struct Image pic){
 	int i,j;
 	for (i = 0; i<pic.height/2; i++){ // pas obliger de /2 mais fais moins d'opérations inutiles
 		for (j=0; j<pic.width; j++){
@@ -153,7 +151,7 @@ void symhori(struct Image pic){
 	}
 }
 
-void symvert(struct Image pic){
+void vertsym(struct Image pic){
 	int i,j;
 	for (i = 0; i<pic.height; i++){
 		for (j=0; j<pic.width/2; j++){
@@ -164,7 +162,7 @@ void symvert(struct Image pic){
 	}
 }
 
-void cent80(struct Image pic){
+void onehundred80(struct Image pic){
 	int i,j,temp;
 	for (i = 0; i<pic.height/2; i++){ //si on divise pas par 2 on annule toutes nos actions
 		for (j=0; j<pic.width; j++){
@@ -200,9 +198,6 @@ void mirror(struct Image pic){
 			pic.rgb[i][pic.width-j-1].red = temp;
 		}
 	}
-}
-
-void quatre2010(struct Image pic){
 }
 
 void blur(struct Image pic){
@@ -266,20 +261,22 @@ int newImage(struct BITMAP_header header, struct DIB_header dibheader, struct Im
 			binary(pic);
 			break;
 		case(8):
-			symhori(pic);
+			horisym(pic);
 			break;
 		case(9):
-			symvert(pic);
+			vertsym(pic);
 			break;
 		case(10):
-			cent80(pic);
+			onehundred80(pic);
 			break;
 		case(11):
 			mirror(pic);
 			break;
 		case(12):
-			printf("How many time do you wanna blur your image ?");
-			scanf("%d",&temp);
+			do{
+				printf("How many time do you wanna blur your image ? (positive number only)\n");
+				scanf("%d",&temp);
+			}while(temp<0);
 			for (i=0;i<temp;i++)
 				blur(pic);
 			break;
