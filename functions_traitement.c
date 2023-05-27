@@ -217,22 +217,21 @@ void blur(struct Image pic){
 }
 
 void SepiaFilter(struct Image pic) {
-    int i, j;
-    unsigned char tmpR, tmpG, tmpB;
+	int i, j;
+	unsigned char tmpR, tmpG, tmpB;
     
-    for (i = 0; i < pic.height; i++) {
-        for (j = 0; j < pic.width; j++) {
-        
-	    tmpR = pic.rgb[i][j].red;
-	    tmpG = pic.rgb[i][j].green;
-	    tmpB = pic.rgb[i][j].blue;        
-        
-            pic.rgb[i][j].red = fmin((tmpR * 0.393) + (tmpG * 0.769) + (tmpB * 0.189), 255);
-            pic.rgb[i][j].green = fmin((tmpR * 0.349) + (tmpG * 0.686) + (tmpB * 0.168), 255);
-            pic.rgb[i][j].blue = fmin((tmpR * 0.272) + (tmpG * 0.534) + (tmpB * 0.131), 255);
-            
-        }
-    }
+	for (i = 0; i < pic.height; i++) {
+		for (j = 0; j < pic.width; j++) {
+			tmpR = pic.rgb[i][j].red;
+			tmpG = pic.rgb[i][j].green;
+			tmpB = pic.rgb[i][j].blue;        
+
+			pic.rgb[i][j].red = fmin((tmpR * 0.393) + (tmpG * 0.769) + (tmpB * 0.189), 255);
+			pic.rgb[i][j].green = fmin((tmpR * 0.349) + (tmpG * 0.686) + (tmpB * 0.168), 255);
+			pic.rgb[i][j].blue = fmin((tmpR * 0.272) + (tmpG * 0.534) + (tmpB * 0.131), 255);
+
+		}
+	}
 }
 
 int newImage(struct BITMAP_header header, struct DIB_header dibheader, struct Image pic){
