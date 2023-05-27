@@ -11,4 +11,4 @@ Please enter those lines in your terminal:
 
 To use the program just answer the questions in the terminal, your new files will be name "new.bmp" (you can change this name in the code)
 
-enter "display new.bmp" to see your picture
+enter "display new.bmp" in the terminal to see your picture
