@@ -344,17 +344,23 @@ int openbmpfile(const char *fileName){
 void menu(){
 	int pic,test;
 	do {
-		printf("What image to you want to use between: \n(1) TIGER (but not Woods) \n(2) Landscape \nPlease enter the number related to your choice\n");
+		printf("What image to you want to use between: \n(1) TIGER (but not Woods) \n(2) Landscape \n(3) A really cool painting \n(4) People (with a great sunset) \nPlease enter the number related to your choice\n");
 		test = scanf("%d",&pic);
 		if (test != 1)
 			exit(1);
-	}while ((pic!=1)&&(pic!=2));
+	}while ((pic<1)&&(pic>4));
 	switch(pic){
 		case(1):
 			openbmpfile("imaget.bmp");
 			break;
 		case(2):
 			openbmpfile("imagef.bmp");
+			break;
+		case(3):
+			openbmpfile("imagec.bmp");
+			break;
+		case(4):
+			openbmpfile("imagep.bmp");
 			break;
 	}
 }
