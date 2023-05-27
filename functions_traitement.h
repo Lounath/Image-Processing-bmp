@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 
 struct BITMAP_header;
@@ -66,6 +67,9 @@ void quatre2010(struct Image pic);
 
 void blur(struct Image pic);
 //procédure qui modifie l'image "pic" avec un filtre flou
+
+void SepiaFilter(struct Image pic);
+//procédure qui applique un filtre rétro à l'image "pic"
 
 int newImage(struct BITMAP_header header, struct DIB_header dibheader, struct Image pic);
 //fonction qui modifie une nouvelle image en demandant à l'utilisateur quel fitre il veut appliquer
