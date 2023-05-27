@@ -69,7 +69,9 @@ void morelumi(struct Image pic){
 	int i,j,k;
 	do{
 		printf("How much do you want to increase the luminosity ? (between 0 and 255)\n");
-		scanf("%d",&k);
+		i = scanf("%d",&k);
+		if (i != 1)
+			exit(1);
 	}while(k<0);
 	for (i = 0; i<pic.height; i++){
 		for (j=0; j<pic.width; j++){
@@ -84,7 +86,9 @@ void lesslumi(struct Image pic){
 	int i,j,k;
 	do{
 		printf("How much do you want to decrease the luminosity ? (between 0 and 255)\n");
-		scanf("%d",&k);
+		i = scanf("%d",&k);
+		if (i != 1)
+			exit(1);
 	}while(k<0);
 	for (i = 0; i<pic.height; i++){
 		for (j=0; j<pic.width; j++){
@@ -233,7 +237,9 @@ int newImage(struct BITMAP_header header, struct DIB_header dibheader, struct Im
 	int i,temp,choice;
 	do {
 		printf("Choose how your going to change your image between (please enter the number related to your choice): \n(1) Grayscale \n(2) Negatif \n(3) More luminosity \n(4) Less luminosity \n(5) Less contrast \n(6) More contrast \n(7) Binary \n(8) Horizontal symmetry \n(9) Vertical symmetry \n(10) 180 degres \n(11) Mirror \n(12) Blur\n(13) Sepia Filter\n Please enter the number related to your choixe\n ");
-	scanf("%d",&choice);
+		i = scanf("%d",&choice);
+		if (i != 1)
+			exit(1);
 	}while ((choice<1)||(choice>13));
 	FILE *fpw= fopen("new.bmp","w"); //writer
 	if (fpw == NULL) return 1;
@@ -336,10 +342,12 @@ int openbmpfile(const char *fileName){
 	
 
 void menu(){
-	int pic;
+	int pic,test;
 	do {
 		printf("What image to you want to use between: \n(1) TIGER (but not Woods) \n(2) Landscape \nPlease enter the number related to your choice\n");
-		scanf("%d",&pic);
+		test = scanf("%d",&pic);
+		if (test != 1)
+			exit(1);
 	}while ((pic!=1)&&(pic!=2));
 	switch(pic){
 		case(1):
