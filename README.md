@@ -15,7 +15,9 @@ enter "display new.bmp" in the terminal to see your picture
 
 to enter a new picture add:
 >>case(the next number):
+
 >>    openbmpfile(Filename);
+
 >>    break;
 
 in the functions_traitement.c file
