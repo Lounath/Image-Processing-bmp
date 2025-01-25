@@ -8,7 +8,6 @@ This project is a C program designed for image processing and applying filters t
 - Load and process .bmp images.
 - Apply various image filters (customizable).
 - Save processed images under a new filename.
-- Lightweight and dependency-minimal.
 
 ---
 
