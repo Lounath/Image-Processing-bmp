@@ -68,11 +68,29 @@ To add a new image for processing:
    ```
    Replace `4` with the total number of cases you now have.
 
-4. (Optional) Add a description of your new image to the on-screen prompts for better clarity.
+4. Add the option in the choice in menu()
+   ```c
+   		printf("What image to you want to use between: \n(1) TIGER (but not Woods) \n(2) Landscape \n(3) A really cool painting \n(4) People (with a great sunset) \nPlease enter the number related to your choice\n");
+   ```
+6. To see the changement enter 'make' in your terminal and execute './prog'
 
 ---
 
 ## Screenshots
+Negatif of the tiger picture
+![image](https://github.com/user-attachments/assets/4905305a-d5ce-4771-a199-45c4dadd6216)
+
+Binary of the landscape
+![image](https://github.com/user-attachments/assets/185c681b-55b4-4284-9f07-be3bf34ea856)
+
+Sepia Filter
+![image](https://github.com/user-attachments/assets/dafc4303-d117-438b-9153-e9150a4b1b7f)
+
+Blur
+![image](https://github.com/user-attachments/assets/22822018-7397-40a5-86df-22d56018cd81)
+
+All of the options
+![image](https://github.com/user-attachments/assets/a788568d-df07-486e-97fd-dc06b426dfd7)
 
 
 ---
