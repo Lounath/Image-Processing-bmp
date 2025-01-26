@@ -236,7 +236,7 @@ void SepiaFilter(struct Image pic) {
 int newImage(struct BITMAP_header header, struct DIB_header dibheader, struct Image pic){
 	int i,temp,choice;
 	do {
-		printf("Choose how your going to change your image between (please enter the number related to your choice): \n(1) Grayscale \n(2) Negatif \n(3) More luminosity \n(4) Less luminosity \n(5) Less contrast \n(6) More contrast \n(7) Binary \n(8) Horizontal symmetry \n(9) Vertical symmetry \n(10) 180 degres \n(11) Mirror \n(12) Blur\n(13) Sepia Filter\n Please enter the number related to your choixe\n ");
+		printf("Choose how your going to change your image between (please enter the number related to your choice): \n(1) Grayscale \n(2) Negatif \n(3) More luminosity \n(4) Less luminosity \n(5) Less contrast \n(6) More contrast \n(7) Binary \n(8) Horizontal symmetry \n(9) Vertical symmetry \n(10) 180 degres \n(11) Mirror \n(12) Blur\n(13) Sepia Filter\n Please enter the number related to your choice\n ");
 		i = scanf("%d",&choice);
 		if (i != 1)
 			exit(1);
@@ -320,13 +320,13 @@ int openbmpfile(const char *fileName){
 	fread(&dibheader,sizeof(struct DIB_header),1,fp);
 	if ((dibheader.compression != 0) || (dibheader.bitsperpixel != 24)||(dibheader.header_size != 40)){
 		if (dibheader.header_size != 40){
-			printf("size");
+			printf("Problems with .bmp make sure that it really is a .bmp. Problem come from the header of the file.");
 		}
 		if (dibheader.bitsperpixel != 24){
-			printf("bpp");
+			printf("Problems with .bmp make sure that it really is a .bmp. Problem come from the bit per pixel.");
 		}
 		else{
-			printf("comp");
+			printf("Problems with .bmp make sure that it really is a .bmp. Problem come from the compression.");
 		}
 		fclose(fp);
 		return 1;
@@ -354,7 +354,7 @@ void menu(){
 			openbmpfile("imaget.bmp");
 			break;
 		case(2):
-			openbmpfile("imagef.bmp");
+			openbmpfile("imagel.bmp");
 			break;
 		case(3):
 			openbmpfile("imagec.bmp");
